@@ -1,13 +1,11 @@
-
 <script>
 import Header from './components/Header.vue';
 import SideBarNav from './components/SideBarNav.vue';
-import Login from './components/Login.vue';
 
 export default {
   name: 'App',
   components: {
-    Header, SideBarNav, Login
+    SideBarNav, Header
   },
   data() {
     return {
@@ -26,8 +24,6 @@ export default {
 </script>
 
 
-
-<!-- Phoenix -->
 <template>
   <div id="app" :class="{ 'dark-mode': darkMode }">
     <div v-if="isLoggedIn">
@@ -54,10 +50,10 @@ export default {
 </template>
  
 
-
-
-
-<!-- Zahraa -->
 <style>
+
+body{
+  background-color: aquamarine;
+}
 
 </style>
