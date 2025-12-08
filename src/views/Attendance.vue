@@ -2,10 +2,6 @@
 
 </script>
 
-
-
-
-<!-- Phoenix -->
 <template>
     <div class="attendance-page">
         <div class="page-header">
@@ -38,8 +34,6 @@
 
 </template>
 
+<style>
 
-
-
-<!-- Zahraa -->
-<style></style>
+</style>
