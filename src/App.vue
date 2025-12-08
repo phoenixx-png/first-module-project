@@ -1,12 +1,6 @@
 <script>
 import Header from './components/Header.vue';
 import SideBarNav from './components/SideBarNav.vue';
-import Login from './views/Login.vue';
-import Employees from './views/Employees.vue';
-import Attendance from './views/Attendance.vue';
-import Payroll from './views/Payroll.vue';
-import Performance from './views/Performance.vue';
-import TimeOff from './views/TimeOff.vue';
 
 export default {
   name: 'App',
