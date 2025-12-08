@@ -1,4 +1,4 @@
-<!-- Kuhle -->
+
 <script>
 import Header from './components/Header.vue';
 import SideBarNav from './components/SideBarNav.vue';
@@ -29,23 +29,26 @@ export default {
 
 <!-- Phoenix -->
 <template>
-
   <div id="app" :class="{ 'dark-mode': darkMode }">
-
     <div v-if="isLoggedIn">
-      <Header :darkMode="darkMode" @toggle-dark-mode="toggleDarkMode" @logout="logout" />
+      <Header 
+        :darkMode="darkMode" 
+        @toggle-dark-mode="toggleDarkMode" 
+        @logout="logout"
+        @toggle-sidebar="toggleSidebar"
+      />
 
       <div class="main-container">
-        <SideBarNav :isCollapsed="isCollapsed" />
-
-        <main class="main-content" :class="{ 'expanded': isCollapsed }">
-          <RouterView />
+        <SideBarNav :isCollapsed="isSidebarCollapsed" />
+        
+        <main class="main-content" :class="{ 'expanded': isSidebarCollapsed }">
+          <router-view />
         </main>
       </div>
     </div>
-
+    
     <div v-else>
-      <Login @login-success="loginSuccess" />
+      <router-view @login="login" />
     </div>
   </div>
 </template>
@@ -55,4 +58,6 @@ export default {
 
 
 <!-- Zahraa -->
-<style></style>
+<style>
+
+</style>

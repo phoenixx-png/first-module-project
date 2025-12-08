@@ -6,22 +6,92 @@
 
 
 <template>
+  <div class="login-page">
     <div class="login-container">
-        <div class="login-card">
-            <h2> LOGIN </h2>
-            <form @submit.prevent="submitLogin">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" v-model="username" required />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" v-model="password" required />
-                </div>
-            </form>
-                <button type="submit"> Login </button>
+      <div class="left-panel">
+        <div class="welcome-section">
+          <div class="logo">
+            <i class="bi bi-people"></i>
+            <h1>HR Portal</h1>
+          </div>
+          
+          <div class="welcome-text">
+            <h2>Welcome back!</h2>
+          </div>
+          
+          <div class="features">
+            <div class="feature">
+              <i class="bi bi-people"></i>
+              <span>Manage Employees</span>
+            </div>
+            <div class="feature">
+              <i class="bi bi-cash-stack"></i>
+              <span>Process Payroll</span>
+            </div>
+            <div class="feature">
+              <i class="bi bi-calendar-check"></i>
+              <span>Track Attendance</span>
+            </div>
+          </div>
         </div>
+      </div>
+      
+      <div class="right-panel">
+        <div class="login-card">
+          <h3>Sign In</h3>
+          
+          <form @submit.prevent="handleLogin" class="login-form">
+            <div class="form-group">
+              <label>Email Address</label>
+              <div class="input-group">
+                <i class="bi bi-envelope"></i>
+                <input
+                  v-model="email"
+                  type="email"
+                  placeholder="you@company.com"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Password</label>
+              <div class="input-group">
+                <i class="bi bi-lock"></i>
+                <input
+                  v-model="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  placeholder="Enter password"
+                  required
+                />
+                <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+                  <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-options">
+              <label class="remember">
+                <input type="checkbox" v-model="rememberMe">
+                <span>Remember me</span>
+              </label>
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="login-btn" :disabled="loading">
+              <span v-if="!loading">Sign In</span>
+              <span v-else>Signing in...</span>
+            </button>
+            
+            <div class="login-footer">
+              <p>Need help? <a href="#">Contact support</a></p>
+              <p class="version">HR System v1.0</p>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 
