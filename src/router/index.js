@@ -1,66 +1,60 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Login from "../views/Login.vue";
-import Employees from "../views/Employees.vue";
-import Attendance from "../views/Attendance.vue";
-import Payroll from "../views/Payroll.vue";
-import Performance from "../views/Performance.vue";
-import TimeOff from "../views/TimeOff.vue";
-
 const routes = [
   {
     path: "/",
     name: "Login",
-    component: Login,
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: () => import('../views/Dashboard.vue')
   },
   {
     path: "/employees",
     name: "Employees",
-    component: Employees,
-    meta: { requiresAuth: true }
+    component: () => import('../views/Employees.vue')
   },
   {
     path: "/attendance",
     name: "Attendance",
-    component: Attendance,
-    meta: { requiresAuth: true }
+    component: () => import('../views/Attendance.vue')
   },
   {
     path: "/payroll",
     name: "Payroll",
-    component: Payroll,
-    meta: { requiresAuth: true }
+    component: () => import('../views/Payroll.vue')
   },
   {
     path: "/performance",
     name: "Performance",
-    component: Performance,
-    meta: { requiresAuth: true }
+    component: () => import('../views/Performance.vue')
   },
   {
     path: "/timeoff",
     name: "TimeOff",
-    component: TimeOff,
-    meta: { requiresAuth: true }
+    component: () => import('../views/TimeOff.vue')
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isLoggedIn = localStorage.getItem('savedEmail') !== null;
+  const isAuthenticated = localStorage.getItem('auth') === 'true'
   
-  if (requiresAuth && !isLoggedIn) {
-    next('/');
-  } else if (to.path === '/' && isLoggedIn) {
-    next('/employees');
-  } else {
-    next();
+  if (to.name === 'home' && !isAuthenticated) {
+    next('/login')
+  } 
+  else if (to.name === 'login' && isAuthenticated) {
+    next('/home')
+  } 
+  else {
+    next()
   }
-});
+})
 
-export default router;
+export default router

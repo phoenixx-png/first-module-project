@@ -5,87 +5,164 @@ import SideBarNav from './components/SideBarNav.vue';
 export default {
   name: 'App',
   components: {
-    SideBarNav, Header
+    Header,
+    SideBarNav
   },
   data() {
     return {
       darkMode: false,
-      isLoggedIn: false,
       isSidebarCollapsed: false,
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return localStorage.getItem('isAuthenticated') === 'true';
     }
   },
   methods: {
     toggleDarkMode() {
       this.darkMode = !this.darkMode;
+      localStorage.setItem('darkMode', this.isDarkMode)
     },
-    login(){
-      this.isLoggedIn = true;
-    },
-    logout(){
-      this.isLoggedIn = false;
-    },
-    toggleSidebar(){
+    toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    },
+    logout() {
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('userEmail');
+
+      this.$router.push('/');
+    }
+  },
+  mounted() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode) {
+      this.DarkMode = savedDarkMode === 'true'
+    }
+
+    if (!this.isLoggedIn && this.$route.path !== '/') {
+      this.$router.push('/');
+    }
+  },
+  watch: {
+    darkMode(newVal) {
+      localStorage.setItem('darkMode', JSON.stringify(newVal));
     }
   }
 }
-
 </script>
 
 
 <template>
   <div id="app" :class="{ 'dark-mode': darkMode }">
     <div v-if="isLoggedIn">
-      <Header 
-        :darkMode="darkMode" 
-        @toggle-dark-mode="toggleDarkMode" 
-        @logout="logout"
-        @toggle-sidebar="toggleSidebar"
-      />
+      <Header :darkMode="darkMode" @toggle-dark-mode="toggleDarkMode" @logout="logout"
+        @toggle-sidebar="toggleSidebar" />
 
       <div class="main-container">
-        <SideBarNav :isCollapsed="isSidebarCollapsed" />
-        
-        <main class="main-content" :class="{ 'expanded': isSidebarCollapsed }">
+        <SideBarNav :is-collapsed="isSidebarCollapsed" :dark-mode="darkMode" />
+        <main :class="['main-content', { 'sidebar-collapsed': isSidebarCollapsed }]">
           <router-view />
         </main>
       </div>
     </div>
-    
+
     <div v-else>
       <router-view @login="login" />
     </div>
   </div>
 </template>
- 
+
 
 <style>
-
-body{
-  background-color: aquamarine;
+* {
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s ease;
+  box-sizing: border-box;
 }
 
-#app.dark-mode{
-  background-color: #1a1a1a;
-  color: #ffffff;
+#app {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.main-container{
-  display:flex;
-  min-height:100vh;
+/* light mode is default */
+#app {
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-.main-content{
-  flex:1;
+#app.dark-mode {
+  background-color: #121416;
+  color: #e9ecef;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+.main-container {
+  display: flex;
+  min-height: calc(100vh - 60px);
+  position: relative;
+  margin-top: 60px;
+}
+
+.main-content {
+  flex: 1;
   padding: 20px;
+  margin-left: 250px;
   transition: margin-left 0.3s ease;
+  overflow-y: auto;
+  min-height: calc(100vh - 60px);
 }
 
-.main-content.expand{
+#app.dark-mode .main-content {
+  background-color: #121416;
+  color: #e9ecef;
+}
+
+.main-content.expanded {
   margin-left: 0;
 }
 
+.main-content.sidebar-collapsed {
+  margin-left: 70px;
+}
+
+#app.dark-mode .main-content {
+  background-color: #121416;
+  color: #e9ecef;
+}
+
+@media(max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+}
+
+.sidebar {
+  top: 60px;
+  height: calc(100vh - 60px);
+}
+
+@media (max-width: 576px) {
+  .main-content {
+    padding: 10px;
+  }
+}
 </style>
