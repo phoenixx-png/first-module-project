@@ -4,38 +4,42 @@ const routes = [
   {
     path: "/",
     name: "Login",
-    component: () => import('../views/Login.vue')
+    component: () => import("../views/Login.vue"),
   },
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: () => import('../views/Dashboard.vue')
+    component: () => import("../views/Dashboard.vue"),
   },
   {
     path: "/employees",
     name: "Employees",
-    component: () => import('../views/Employees.vue')
+    component: () => import("../views/Employees.vue"),
   },
   {
     path: "/attendance",
     name: "Attendance",
-    component: () => import('../views/Attendance.vue')
+    component: () => import("../views/Attendance.vue"),
   },
   {
     path: "/payroll",
     name: "Payroll",
-    component: () => import('../views/Payroll.vue')
+    component: () => import("../views/Payroll.vue"),
   },
   {
     path: "/performance",
     name: "Performance",
-    component: () => import('../views/Performance.vue')
+    component: () => import("../views/Performance.vue"),
   },
   {
     path: "/timeoff",
     name: "TimeOff",
-    component: () => import('../views/TimeOff.vue')
+    component: () => import("../views/TimeOff.vue"),
   },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/employees" 
+  }
 ];
 
 const router = createRouter({
@@ -44,15 +48,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('auth') === 'true'
-  
-  if (to.name === 'home' && !isAuthenticated) {
-    next('/login')
-  } 
-  else if (to.name === 'login' && isAuthenticated) {
-    next('/home')
-  } 
-  else {
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+  if (!isAuthenticated && to.path !== "/") {
+    next("/")
+  } else if (isAuthenticated && to.path === "/") {
+    next("/dashboard")
+  } else {
     next()
   }
 })

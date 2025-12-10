@@ -71,7 +71,7 @@ export default {
       <div class="left-panel">
         <div class="welcome-section">
           <div class="logo">
-            <img src="">
+            <img src="../assets/MagicEraser_251209_102555.png">
           <h1>ModernTech.HR</h1>
         </div>
 

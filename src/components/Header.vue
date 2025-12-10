@@ -62,7 +62,7 @@ export default {
         <i class="bi bi-list"></i>
       </button>
 
-      <div class="logo" @click="$router.push('/employees')">
+      <div class="logo" @click="$router.push('/dashboard')">
         <div class="logo-icon">
           <img src="../assets/Black White Bold Modern Studio Logo.png">
         </div>
@@ -73,7 +73,7 @@ export default {
       </div>
     </div>
 
-    <div class="header-middle">
+    <!-- <div class="header-middle">
       <div class="search-box">
         <i class="bi bi-search search-icon"></i>
         <input type="text" v-model="searchQuery" placeholder="Find employee or document..." class="search-input"
@@ -82,7 +82,7 @@ export default {
           <i class="bi bi-arrow-right"></i>
         </button>
       </div>
-    </div>
+    </div> -->
 
     <div class="header-right">
       <div class="datetime">
@@ -182,7 +182,7 @@ export default {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #4398db;
+  color: #5f43db;
   cursor: pointer;
   padding: 5px;
   border-radius: 4px;
@@ -209,7 +209,7 @@ export default {
 
 .logo-icon {
   font-size: 1.8rem;
-  color: #3498db;
+  color: #a9cde5;
 }
 
 .logo-text {
@@ -367,6 +367,11 @@ search-btn:hover {
   color: #3498db;
 }
 
+.dark-mode .user-avatar {
+  font-size: 1.5rem;
+  color: #f6ae1e;
+}
+
 .user-name{
   font-weight: 500;
 }
@@ -413,6 +418,12 @@ search-btn:hover {
 .user-avatar-large{
   font-size: 2.5rem;
   color: #3498db;
+  margin-right: 15px;
+}
+
+.dark-mode .user-avatar-large{
+  font-size: 2.5rem;
+  color: #f6ae1e;
   margin-right: 15px;
 }
 
