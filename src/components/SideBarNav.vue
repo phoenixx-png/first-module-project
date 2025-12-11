@@ -39,12 +39,12 @@ export default {
       'collapsed': isCollapsed,
       'dark-mode': darkMode
     }">
-    <div class="sidebar-header">
+    <!-- <div class="sidebar-header">
       <router-link to="/dashboard" class="sidebar-logo">
         <i class="bi bi-people"></i>
         <span v-if="!isCollapsed">ModernTech.HR</span>
       </router-link>
-    </div>
+    </div> -->
 
     <nav class="sidebar-nav">
       <ul class="nav-menu">
