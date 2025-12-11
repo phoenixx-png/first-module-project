@@ -3,14 +3,14 @@
 
 
 <template>
-    <!-- <main class="welcome">
-        <h1> Welcome to ModernTech.HR! </h1>
-    </main> -->
+    <main class="welcome">
+        <h1> LOL </h1>
+    </main>
 </template>
 
 
 <style>
-  /* .welcome {
+    .welcome {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,28 +24,13 @@
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
     text-align: center;
-    background: linear-gradient(90deg, #645de9, #ff7f39);
+    color: black;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     margin: 0;
     padding: 0 20px;
     background-size: 200% auto;
-    animation: gradient 3s ease infinite;
-    }
-
-    @keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-        }
-
-    50% {
-        background-position: 100% 50%;
-        }
-
-    100% {
-        background-position: 0% 50%;
-        }
     }
 
     @media (max-width: 768px) {
@@ -65,5 +50,5 @@
         font-size: clamp(1.25rem, 6vw, 2rem);
         padding: 0 15px;
         }
-    }  */
+    }
 </style>

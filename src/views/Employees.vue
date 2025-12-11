@@ -1,6 +1,7 @@
 <script>
 import employeeInfo from '@/stores/employee_info.json';
 
+
 export default {
     name: 'Employees',
     data() {

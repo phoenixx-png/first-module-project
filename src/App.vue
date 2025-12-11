@@ -87,7 +87,7 @@ export default {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* light mode is default */
+/* light mode is default mode in website*/
 #app {
   background-color: #f5f5f5;
   color: #333;

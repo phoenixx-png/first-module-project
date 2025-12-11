@@ -177,6 +177,10 @@
         min-height: 100vh;
     }
 
+    .dark-mode .timeoff-page{
+        background: #121416;
+    }
+
     .header{
         margin-bottom: 30px;
     }
@@ -366,4 +370,103 @@
         text-align: center;
         color: #95a5a6;
     }
+
+    @media (max-width: 768px) {
+
+    .timeoff-page {
+        padding: 15px;
+    }
+
+    .page-header h1 {
+        font-size: 1.6rem;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+        padding: 5px 0 15px 0;
+    }
+
+    .tabs {
+        flex-direction: column;
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .tab-btn {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .section-header {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .stat-item {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .simple-list {
+        gap: 12px;
+    }
+
+    .request-card {
+        padding: 15px;
+    }
+
+    .request-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .request-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .status-badge {
+        font-size: 0.8rem;
+    }
+
+    .request-details p {
+        margin: 6px 0;
+        font-size: 0.9rem;
+    }
+
+    .no-data-message {
+        padding: 40px 15px;
+    }
+
+    .no-data-message i {
+        font-size: 2.5rem;
+    }
+
+    .no-data-message h3 {
+        font-size: 1.1rem;
+    }
+
+
+    .calendar-section,
+    .policy-section {
+        padding: 20px;
+        font-size: 0.95rem;
+    }
+}
 </style>

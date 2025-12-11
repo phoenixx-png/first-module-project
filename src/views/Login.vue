@@ -150,15 +150,15 @@ export default {
 </template>
 
 
-<style>
-* {
+<style scoped>
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
+} */
 
-body {
+/* body {
   background-color: #f8fafc;
   color: #334155;
   min-height: 100vh;
@@ -166,18 +166,19 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-}
+} */
 
 .login-page {
-  width: 100%;
+  /* width: 100%;
   max-width: 1100px;
-  height: 700px;
+  height: 700px; */
   background: white;
-  border-radius: 24px;
+  /* border-radius: 24px; */
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
   display: flex;
   transition: all 0.3s ease;
+  margin: 0 auto;
 }
 
 .login-container {
@@ -282,11 +283,11 @@ body {
 }
 
 .login-card {
-  width: 100%;
-  max-width: 420px;
+  /* width: 100%;
+  max-width: 420px; */
   padding: 40px;
   background: white;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
   border: 1px solid #e2e8f0;
 }
@@ -461,5 +462,102 @@ body {
   margin-top: 10px;
   font-size: 13px;
   color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+
+  .login-page {
+    flex-direction: column;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .login-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left-panel {
+    flex: unset;
+    width: 100%;
+    padding: 35px 30px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .logo {
+    justify-content: center;
+  }
+
+  .logo h1 {
+    font-size: 26px;
+  }
+
+  .welcome-text h2 {
+    font-size: 28px;
+    max-width: 100%;
+  }
+
+  .features {
+    width: 100%;
+    align-items: center;
+  }
+
+  .feature {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .right-panel {
+    flex: unset;
+    width: 100%;
+    padding: 40px 25px;
+  }
+
+  .login-card {
+    max-width: 100%;
+    padding: 30px;
+  }
+
+  .login-card h3 {
+    font-size: 26px;
+  }
+
+  .input-group {
+    padding: 0 14px;
+  }
+
+  .input-group input {
+    padding: 14px 0;
+    font-size: 15px;
+  }
+
+  .login-form {
+    gap: 18px;
+  }
+
+  .form-options {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .remember {
+    font-size: 14px;
+  }
+
+  .forgot-link {
+    font-size: 14px;
+  }
+
+  .login-btn {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .login-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+  }
 }
 </style>

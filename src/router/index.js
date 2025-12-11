@@ -6,11 +6,11 @@ const routes = [
     name: "Login",
     component: () => import("../views/Login.vue"),
   },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: () => import("../views/Dashboard.vue"),
-  },
+  // {
+  //   path: "/dashboard",
+  //   name: "Dashboard",
+  //   component: () => import("../views/Dashboard.vue"),
+  // },
   {
     path: "/employees",
     name: "Employees",
@@ -37,6 +37,11 @@ const routes = [
     component: () => import("../views/TimeOff.vue"),
   },
   {
+    path: "/settings",
+    name: "Settings",
+    component: () => import("../views/Settings.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     redirect: "/employees" 
   }
@@ -53,7 +58,7 @@ router.beforeEach((to, from, next) => {
   if (!isAuthenticated && to.path !== "/") {
     next("/")
   } else if (isAuthenticated && to.path === "/") {
-    next("/dashboard")
+    next("/employees")
   } else {
     next()
   }

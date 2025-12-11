@@ -8,7 +8,7 @@ export default {
   data() {
     return {
       menuItems: [
-        { title: 'Dashboard', path: '/dashboard', icon: 'bi-house' },
+        // { title: 'Dashboard', path: '/dashboard', icon: 'bi-house' },
         { title: 'Employees', path: '/employees', icon: 'bi-people' },
         { title: 'Attendance', path: '/attendance', icon: 'bi-calendar-check' },
         { title: 'Payroll', path: '/payroll', icon: 'bi-cash-stack' },
@@ -39,12 +39,12 @@ export default {
       'collapsed': isCollapsed,
       'dark-mode': darkMode
     }">
-    <div class="sidebar-header">
+    <!-- <div class="sidebar-header">
       <router-link to="/dashboard" class="sidebar-logo">
         <i class="bi bi-people"></i>
         <span v-if="!isCollapsed">ModernTech.HR</span>
       </router-link>
-    </div>
+    </div> -->
 
     <nav class="sidebar-nav">
       <ul class="nav-menu">
