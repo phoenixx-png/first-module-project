@@ -10,7 +10,7 @@
 
             <div class="filter-group">
                 <label for="status-filter">Filter by Status</label>
-                <select id="status-filter" v-model="selectedStatus" >
+                <select id="status-filter" v-model="selectedStatus">
                     <option value="all">All Status</option>
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
@@ -22,9 +22,10 @@
             <button @click="resetFilters" class="reset-btn">Reset Filters</button>
         </div>
 
+        <!-- Corrected Stats Section -->
         <div class="stats-section">
             <h3>Monthly Overview({{ currentMonthName }})</h3>
-            <div enter-class="stats-grid">
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon present">📊</div>
                     <div class="stat-info">
@@ -32,29 +33,29 @@
                         <p class="stat-value">{{ totalEmployees }}</p>
                     </div>
                 </div>
-            </div>
 
-            <div class="stat-card">
-                <div class="stat-icon present">✅</div>
-                <div class="stat-info">
-                    <h4>Average Attendance</h4>
-                    <p class="stat-value">{{ averageAttendance }}%</p>
+                <div class="stat-card">
+                    <div class="stat-icon present">✅</div>
+                    <div class="stat-info">
+                        <h4>Average Attendance</h4>
+                        <p class="stat-value">{{ averageAttendance }}%</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="stat-card">
-                <div class="stat-icon absent">⚠️</div>
-                <div class="stat-info">
-                    <h4>Absences</h4>
-                    <p class="stat-value">{{ totalAbsences }}</p>
+                <div class="stat-card">
+                    <div class="stat-icon absent">⚠️</div>
+                    <div class="stat-info">
+                        <h4>Absences</h4>
+                        <p class="stat-value">{{ totalAbsences }}</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="stat-card">
-                <div class="stat-icon leave">🏖️</div>
-                <div class="stat-info">
-                    <h4>On Leave</h4>
-                    <p class="stat-value">{{ totalOnLeave }}</p>
+                <div class="stat-card">
+                    <div class="stat-icon leave">🏖️</div>
+                    <div class="stat-info">
+                        <h4>On Leave</h4>
+                        <p class="stat-value">{{ totalOnLeave }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,7 +64,7 @@
     <div class="calendar-section">
         <h3>Attendance Calendar - {{ currentMonthName }}</h3>
         <div class="calendar-controls">
-            <button @click="prevMonth" class="nav-btn">← Previous  </button>
+            <button @click="prevMonth" class="nav-btn">← Previous </button>
             <span class="current-month">{{ currentMonthName }} </span>
             <button @click="nextMonth" class="nav-btn">Next → </button>
         </div>
@@ -73,10 +74,11 @@
                 {{ day }}
             </div>
 
-            <div v-for="day in calendarDays" :key="day.date" class="calendar-day" :class="{'empty-day' : !day.inMonth}">
+            <div v-for="day in calendarDays" :key="day.date" class="calendar-day" :class="{ 'empty-day': !day.inMonth }">
                 <div class="day-number">{{ day.day }}</div>
                 <div v-if="day.inMonth" class="day-attendance">
-                    <div v-for="record in getAttendanceForDate(day.date)" :key="record.employeeId" class="employee-dot" :class="getStatusClass(record.status)" :title="`${record.name}: ${record.status}`">
+                    <div v-for="record in getAttendanceForDate(day.date)" :key="record.employeeId" class="employee-dot"
+                        :class="getStatusClass(record.status)" :title="`${record.name}: ${record.status}`">
                     </div>
                 </div>
             </div>
@@ -104,11 +106,11 @@
             <table class="attendance-table">
                 <thead>
                     <tr>
-                      <th>Employee</th>
-                      <th>Employee ID</th>
-                      <th v-for="date in displayedDates" :key="date">{{ formatDate(date) }}</th>
-                      <th>Present Days</th>
-                      <th>Attendance %</th>
+                        <th>Employee</th>
+                        <th>Employee ID</th>
+                        <th v-for="date in displayedDates" :key="date">{{ formatDate(date) }}</th>
+                        <th>Present Days</th>
+                        <th>Attendance %</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,7 +134,8 @@
                         <td class="stat-cell">
                             <div class="attendance-percentage">
                                 <div class="percentage-bar">
-                                    <div class="percentage-fill" :style="{width: calculateAttendancePercentage(employee) + '%'}">
+                                    <div class="percentage-fill"
+                                        :style="{ width: calculateAttendancePercentage(employee) + '%' }">
                                     </div>
                                 </div>
                                 <span>{{ calculateAttendancePercentage(employee) }}%</span>
@@ -142,215 +145,217 @@
                 </tbody>
             </table>
         </div>
+        <button class="edit_btn">Edit</button>
     </div>
 </template>
 
 <script>
-    import{ref, computed, onMounted} from 'vue'
-    import attendanceData from '@/stores/attendance.json'
-    
-    export default {
-        name: 'AttendanceView',
-        setup(){
-            const attendanceRecords = ref([])
-            const selectedMonth = ref(new Date().toISOString().slice(0,7))
+import { ref, computed, onMounted } from 'vue'
+import attendanceData from '@/stores/attendance.json'
 
-            const selectedStatus = ref('all')
-            // const currentDate = ref(new Date())
+export default {
+    name: 'AttendanceView',
+    setup() {
+        const attendanceRecords = ref([])
+        const selectedMonth = ref(new Date().toISOString().slice(0, 7))
 
-            onMounted(() => {
-                attendanceRecords.value = attendanceData.attendanceAndLeave || []
-                console.log('Attendance data loaded:', attendanceRecords.value.length, 'employees')
-            })
+        const selectedStatus = ref('all')
+        // const currentDate = ref(new Date())
 
-            const filteredAttendance = computed(() => {
-                const[year,month] = selectedMonth.value.split('-').map(Number)
+        onMounted(() => {
+            attendanceRecords.value = attendanceData.attendanceAndLeave || []
+            console.log('Attendance data loaded:', attendanceRecords.value.length, 'employees')
+        })
 
-                return attendanceRecords.value.map(employee => {
-                    const filteredAttendance = employee.attendance.filter(record=> {
-                        const recordDate = new Date(record.date)
-                        return recordDate.getFullYear() === year &&
-                               recordDate.getMonth() +1 === month
-                    }) 
+        const filteredAttendance = computed(() => {
+            const [year, month] = selectedMonth.value.split('-').map(Number)
 
-                    return {
-                        ...employee, 
-                        attendance: filteredAttendance
-                    }
+            return attendanceRecords.value.map(employee => {
+                const filteredAttendance = employee.attendance.filter(record => {
+                    const recordDate = new Date(record.date)
+                    return recordDate.getFullYear() === year &&
+                        recordDate.getMonth() + 1 === month
                 })
-            })
 
-            const totalEmployees = computed(() => attendanceRecords.value.length)
-
-            const averageAttendance = computed(() => {
-                if (filteredAttendance.value.length === 0) return 0
-
-                const totalDays= filteredAttendance.value.reduce((sum,emp) =>{
-                    return sum + emp.attendance.length
-                },0)
-
-                const presentDays = filteredAttendance.value.reduce((sum, emp) => {
-                    const present = emp.attendance.filter(a => a.status === 'Present').length
-
-                    return sum + present
-                },0)
-
-                return totalDays > 0? Math.round((presentDays / totalDays) * 100) : 0
-            })
-
-            const totalAbsences =computed(()=> {
-                return filteredAttendance.value.reduce((sum, emp)=> {
-                    return sum + emp.attendance.filter(a => a.status === 'Absent').length
-                },0)
-            })
-
-            const totalOnLeave = computed(() => {
-                return filteredAttendance.value.reduce((sum,emp)=>{
-                    return sum + emp.attendance.filter(a => a.status === 'On Leave').length
-                },0)
-            })
-
-            const currentMonthName = computed(() => {
-                return new Date(selectedMonth.value + '-01').toLocaleDateString('en-US', {month: 'long', year: 'numeric'    
-                })  
-            })
-            const currentYear = computed(() => {
-                return new Date(selectedMonth.value + '-01').getFullYear()
-            })
-
-            const displayedDates = computed(()=> {
-                const [year, month] = selectedMonth.value.split('-').map(Number)
-                const daysInMonth = new Date(year, month, 0).getDate()
-                const dates = []
-
-                for (let day = 1; day <= daysInMonth; day++){
-                    dates.push(`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`)
+                return {
+                    ...employee,
+                    attendance: filteredAttendance
                 }
-
-                return dates.slice(21,31)
             })
+        })
 
-            const calendarDays = computed(() => {
-                const [year,month] = selectedMonth.value.split('-').map(Number)
-                const firstDay = new Date(year, month - 1, 1)
-                const lastDay = new Date(year, month, 0)
-                const daysInMonth = lastDay.getDate()
+        const totalEmployees = computed(() => attendanceRecords.value.length)
 
-                const days = []
+        const averageAttendance = computed(() => {
+            if (filteredAttendance.value.length === 0) return 0
 
-                const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() -1
-                for (let i = 0; i < startDay; i++){
-                    days.push({day: '', date: '', inMonth: false})
-                }
+            const totalDays = filteredAttendance.value.reduce((sum, emp) => {
+                return sum + emp.attendance.length
+            }, 0)
 
-                for (let day = 1; day <= daysInMonth; day++){
-                    const date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
-                    days.push({day, date, inMonth: true})
-                }
+            const presentDays = filteredAttendance.value.reduce((sum, emp) => {
+                const present = emp.attendance.filter(a => a.status === 'Present').length
 
-                return days
+                return sum + present
+            }, 0)
+
+            return totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0
+        })
+
+        const totalAbsences = computed(() => {
+            return filteredAttendance.value.reduce((sum, emp) => {
+                return sum + emp.attendance.filter(a => a.status === 'Absent').length
+            }, 0)
+        })
+
+        const totalOnLeave = computed(() => {
+            return filteredAttendance.value.reduce((sum, emp) => {
+                return sum + emp.attendance.filter(a => a.status === 'On Leave').length
+            }, 0)
+        })
+
+        const currentMonthName = computed(() => {
+            return new Date(selectedMonth.value + '-01').toLocaleDateString('en-US', {
+                month: 'long', year: 'numeric'
             })
-            function getEmployeeStatus(employee,date){
-                const record = employee.attendance.find(a => a.date === date)
-                return record ? record.status : 'Not Recorded'
+        })
+        const currentYear = computed(() => {
+            return new Date(selectedMonth.value + '-01').getFullYear()
+        })
+
+        const displayedDates = computed(() => {
+            const [year, month] = selectedMonth.value.split('-').map(Number)
+            const daysInMonth = new Date(year, month, 0).getDate()
+            const dates = []
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                dates.push(`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`)
             }
 
-            function calculatePresentDays(employee){
-                return employee.attendance.filter(a => a.status === 'Present').length
+            return dates.slice(21, 31)
+        })
+
+        const calendarDays = computed(() => {
+            const [year, month] = selectedMonth.value.split('-').map(Number)
+            const firstDay = new Date(year, month - 1, 1)
+            const lastDay = new Date(year, month, 0)
+            const daysInMonth = lastDay.getDate()
+
+            const days = []
+
+            const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1
+            for (let i = 0; i < startDay; i++) {
+                days.push({ day: '', date: '', inMonth: false })
             }
 
-            function calculateAttendancePercentage(employee){
-                const totalDays = employee.attendance.length
-                const presentDays = employee.attendance.filter(a => a.status === 'Present').length
-                return totalDays > 0 ? Math.round((presentDays / totalDays)* 100) : 0
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+                days.push({ day, date, inMonth: true })
             }
 
-            function getAttendanceForDate(date){
-                const records = []
-                filteredAttendance.value.forEach(employee => {
-                    const attendance = employee.attendance.find(a => a.date === date)
-                    if (attendance){
-                        records.push({
-                            employeeId: employee.employeeId,
-                            name: employee.name,
-                            status: attendance.status
-                        })
-                    }
-                })
-                return records.slice(0,20)
-            }
-            function getStatusClass(status){
-                const statusMap = {
-                    'Present': 'present',
-                    'Absent': 'absent',
-                    'Late': 'late',
-                    'On Leave': 'leave',
-                    'Not recorded': 'not-recorded'
+            return days
+        })
+        function getEmployeeStatus(employee, date) {
+            const record = employee.attendance.find(a => a.date === date)
+            return record ? record.status : 'Not Recorded'
+        }
+
+        function calculatePresentDays(employee) {
+            return employee.attendance.filter(a => a.status === 'Present').length
+        }
+
+        function calculateAttendancePercentage(employee) {
+            const totalDays = employee.attendance.length
+            const presentDays = employee.attendance.filter(a => a.status === 'Present').length
+            return totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0
+        }
+
+        function getAttendanceForDate(date) {
+            const records = []
+            filteredAttendance.value.forEach(employee => {
+                const attendance = employee.attendance.find(a => a.date === date)
+                if (attendance) {
+                    records.push({
+                        employeeId: employee.employeeId,
+                        name: employee.name,
+                        status: attendance.status
+                    })
                 }
-                return statusMap[status] || 'not-recorded'
+            })
+            return records.slice(0, 20)
+        }
+        function getStatusClass(status) {
+            const statusMap = {
+                'Present': 'present',
+                'Absent': 'absent',
+                'Late': 'late',
+                'On Leave': 'leave',
+                'Not recorded': 'not-recorded'
             }
+            return statusMap[status] || 'not-recorded'
+        }
 
-            function getStatusInitial(status){
-                const initialMap = {
-                    'Present': 'P',
-                    'Absent' : 'A',
-                    'Late' : 'L',
-                    'On Leave' : 'LV',
-                    'Not Recorded': '-'
-                }
-                return initialMap[status] || '-'
+        function getStatusInitial(status) {
+            const initialMap = {
+                'Present': 'P',
+                'Absent': 'A',
+                'Late': 'L',
+                'On Leave': 'LV',
+                'Not Recorded': '-'
             }
-            function formatDate(dateString){
-                const date = new Date(dateString)
-                return date.toLocaleDateString('en-US', {
-                    day: 'numeric',
-                    month: 'short'
-                })
-            }
+            return initialMap[status] || '-'
+        }
+        function formatDate(dateString) {
+            const date = new Date(dateString)
+            return date.toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'short'
+            })
+        }
 
-            function prevMonth(){
-                const date =new Date(selectedMonth.value + '-01')
-                date.setMonth(date.getMonth() -1)
-                selectedMonth.value = date.toISOString().slice(0,7)
-            }
+        function prevMonth() {
+            const date = new Date(selectedMonth.value + '-01')
+            date.setMonth(date.getMonth() - 1)
+            selectedMonth.value = date.toISOString().slice(0, 7)
+        }
 
-            function nextMonth(){
-                const date = new Date(selectedMonth.value + '-01')
-                date.setMonth(date.getMonth() + 1 )
-                selectedMonth.value = date.toISOString().slice(0, 7)
-            }
+        function nextMonth() {
+            const date = new Date(selectedMonth.value + '-01')
+            date.setMonth(date.getMonth() + 1)
+            selectedMonth.value = date.toISOString().slice(0, 7)
+        }
 
-             
 
-            function resetFilters(){
-                selectedMonth.value = new Date().toISOString().slice(0, 7)
-                selectedStatus.value = 'all'
-            }
 
-            return {
-                attendanceRecords,
-                selectedMonth,
-                selectedStatus,
-                filteredAttendance,
-                totalEmployees,
-                averageAttendance,
-                totalAbsences,
-                totalOnLeave,
-                currentMonthName,
-                currentYear,
-                displayedDates,
-                calendarDays,
-                getEmployeeStatus,
-                calculatePresentDays,
-                calculateAttendancePercentage,
-                getAttendanceForDate,
-                getStatusClass,
-                getStatusInitial,
-                formatDate,
-                prevMonth,
-                nextMonth,
-                resetFilters
-            }
+        function resetFilters() {
+            selectedMonth.value = new Date().toISOString().slice(0, 7)
+            selectedStatus.value = 'all'
+        }
+
+        return {
+            attendanceRecords,
+            selectedMonth,
+            selectedStatus,
+            filteredAttendance,
+            totalEmployees,
+            averageAttendance,
+            totalAbsences,
+            totalOnLeave,
+            currentMonthName,
+            currentYear,
+            displayedDates,
+            calendarDays,
+            getEmployeeStatus,
+            calculatePresentDays,
+            calculateAttendancePercentage,
+            getAttendanceForDate,
+            getStatusClass,
+            getStatusInitial,
+            formatDate,
+            prevMonth,
+            nextMonth,
+            resetFilters
+        }
 
     }
 }
@@ -358,21 +363,28 @@
 </script>
 
 <style scoped>
-.attendance-container{
+.attendance-container {
     padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
     min-height: calc(100vh-120px);
 }
 
-.page-title{
+.page-title {
     margin-bottom: 30px;
     color: #2c3e50;
     font-size: 2rem;
     text-align: center;
 }
 
-.filter-section{
+.dark-mode .page-title {
+    margin-bottom: 30px;
+    color: #d8d8d8;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.filter-section {
     display: flex;
     gap: 20px;
     align-items: flex-end;
@@ -383,18 +395,37 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.filter-group{
+.dark-mode .filter-section {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #3f3f3f;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group {
     flex: 1;
 }
 
-.filter-group label{
+.filter-group label {
     display: block;
     margin-bottom: 8px;
     color: #2c3e50;
     font-weight: 500;
 }
 
-.filter-group input, .filter-group select {
+.dark-mode .filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #d8d8d8;
+    font-weight: 500;
+}
+
+.filter-group input,
+.filter-group select {
     width: 100%;
     padding: 10px;
     border: 2px solid #e0e0e0;
@@ -402,7 +433,7 @@
     font-size: 14px;
 }
 
-.reset-btn{
+.reset-btn {
     padding: 10px 20px;
     background: #95a5a6;
     color: white;
@@ -412,30 +443,35 @@
     transition: background 0.3s;
 }
 
-.reset-btn:hover{
+.reset-btn:hover {
     background: #17d4e1;
     color: white;
 }
 
-.stats-section{
+.stats-section {
     margin-bottom: 30px;
     padding: 10px;
 }
 
-.stats-section h3{
+.stats-section h3 {
     margin-bottom: 20px;
     color: #2c3e50;
 }
 
-.stats-grid{
+.dark-mode .stats-section h3 {
+    margin-bottom: 20px;
+    color: #d8d8d8;
+}
+
+.stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
 
-.stat-card{
+.stat-card {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     align-items: center;
     gap: 15px;
     padding: 20px;
@@ -444,24 +480,48 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.stat-icon{
+.dark-mode .stat-card {
+    display: flex;
+    margin-bottom: 0px;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: #3f3f3f;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
     font-size: 2rem;
 }
 
-.stat-info h4{
+.stat-info h4 {
     margin: 0 0 5px 0;
     color: #7f8c8d;
     font-size: 0.9rem;
 }
 
-.stat-value{
+.dark-mode .stat-info h4 {
+    margin: 0 0 5px 0;
+    color: #d8d8d8;
+    font-size: 0.9rem;
+}
+
+.stat-value {
     margin: 0;
     font-size: 1.8rem;
     font-weight: bold;
     color: #2c3e50;
 }
 
-.calendar-section{
+.dark-mode .stat-value {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #d8d8d8;
+}
+
+.calendar-section {
     margin-bottom: 30px;
     padding: 20px;
     background: white;
@@ -469,25 +529,44 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.calendar-section h3{
+.dark-mode .calendar-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #3f3f3f;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-section h3 {
     margin-bottom: 20px;
     color: #2c3e50
 }
 
-.calendar-controls{
+.dark-mode .calendar-section h3 {
+    margin-bottom: 20px;
+    color: #d8d8d8
+}
+
+.calendar-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.current-month{
+.current-month {
     font-size: 1.2rem;
     font-weight: bold;
     color: #2c3e50;
 }
 
-.nav-btn{
+.dark-mode .current-month {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #d8d8d8;
+}
+
+.nav-btn {
     padding: 8px 16px;
     background: #3498db;
     color: white;
@@ -496,18 +575,18 @@
     cursor: pointer;
 }
 
-.nav-btn:hover{
+.nav-btn:hover {
     background: #2980b9;
 }
 
-.calendar-grid{
+.calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
     margin-bottom: 20px;
 }
 
-.calendar-header{
+.calendar-header {
     text-align: center;
     padding: 10px;
     font-weight: bold;
@@ -516,7 +595,16 @@
     border-radius: 6px;
 }
 
-.calendar-day{
+.dark-mode .calendar-header {
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    color: #d8d8d8;
+    background: #3f3f3f;
+    border-radius: 6px;
+}
+
+.calendar-day {
     min-height: 80px;
     padding: 8px;
     border: 1px solid #e0e0e0;
@@ -526,6 +614,11 @@
 
 .empty-day {
     background: #f8f9fa;
+    border: none;
+}
+
+.dark-mode .empty-day {
+    background: #3f3f3f;
     border: none;
 }
 
@@ -556,10 +649,21 @@
     cursor: help;
 }
 
-.employee-dot.present { background: #27ae60; }
-.employee-dot.absent { background: #e74c3c; }
-.employee-dot.late { background: #f39c12; }
-.employee-dot.leave { background: #3498db; }
+.employee-dot.present {
+    background: #27ae60;
+}
+
+.employee-dot.absent {
+    background: #e74c3c;
+}
+
+.employee-dot.late {
+    background: #f39c12;
+}
+
+.employee-dot.leave {
+    background: #3498db;
+}
 
 .calendar-legend {
     display: flex;
@@ -580,10 +684,21 @@
     border-radius: 50%;
 }
 
-.legend-dot.present { background: #27ae60; } 
-.legend-dot.absent { background: #e74c3c; }
-.legend-dot.late { background: #f39c12; }
-.legend-dot.leave { background: #3498db; }
+.legend-dot.present {
+    background: #27ae60;
+}
+
+.legend-dot.absent {
+    background: #e74c3c;
+}
+
+.legend-dot.late {
+    background: #f39c12;
+}
+
+.legend-dot.leave {
+    background: #3498db;
+}
 
 .table-section {
     margin-bottom: 30px;
@@ -594,9 +709,21 @@
     color: #2c3e50;
 }
 
+.dark-mode .table-section h3 {
+    margin-bottom: 20px;
+    color: #d8d8d8;
+}
+
 .table-container {
     overflow-x: auto;
     background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .table-container {
+    overflow-x: auto;
+    background: #3f3f3f;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -615,6 +742,16 @@
     white-space: nowrap;
 }
 
+.dark-mode .attendance-table th {
+    padding: 15px;
+    text-align: left;
+    background: #3f3f3f;
+    color: #d8d8d8;
+    border-bottom: 2px solid #e0e0e0;
+    white-space: nowrap;
+}
+
+
 .attendance-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #f0f0f0;
@@ -625,8 +762,20 @@
     color: #2c3e50;
 }
 
+.dark-mode .employee-name {
+    font-weight: 500;
+    color: #d8d8d8;
+}
+
 .employee-id {
     color: #2c3e50;
+    /* font-family: 'Courier New', monospace; */
+    font-weight: bold;
+    text-align: center;
+}
+
+.dark-mode .employee-id {
+    color: #d8d8d8;
     /* font-family: 'Courier New', monospace; */
     font-weight: bold;
     text-align: center;
@@ -647,11 +796,36 @@
     font-weight: bold;
 }
 
-.status-badge.present { background: #27ae60; }
-.status-badge.absent { background: #e74c3c; }
-.status-badge.late { background: #f39c12; }
-.status-badge.leave { background: #3498db; }
-.status-badge.not-recorded { background: #ecf0f1;}
+.dark-mode .status-badge {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    color: #3f3f3f;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-badge.present {
+    background: #27ae60;
+}
+
+.status-badge.absent {
+    background: #e74c3c;
+}
+
+.status-badge.late {
+    background: #f39c12;
+}
+
+.status-badge.leave {
+    background: #3498db;
+}
+
+.status-badge.not-recorded {
+    background: #ecf0f1;
+}
 
 .stat-cell {
     text-align: center;
@@ -684,31 +858,31 @@
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .stats-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .calendar-grid {
         gap: 2px;
     }
-    
+
     .calendar-day {
         min-height: 60px;
         padding: 5px;
     }
-    
+
     .employee-dot {
         width: 15px;
         height: 15px;
     }
-    
+
     .attendance-table th,
     .attendance-table td {
         padding: 8px 10px;
         font-size: 14px;
     }
-    
+
     .status-badge {
         width: 25px;
         height: 25px;
@@ -721,10 +895,11 @@
         grid-template-columns: repeat(7, 1fr);
         font-size: 12px;
     }
-    
+
     .calendar-day {
         min-height: 50px;
     }
 }
+
 
 </style>

@@ -208,7 +208,7 @@ export default {
 
         <div v-if="filteredEmployees.length > 0 && !selectedEmployee" class="employee-list-container"> 
         <!-- <div v-if="true" class="employee-list-container"> -->
-            <h3>Search Results:</h3>
+            <h3 class="search-title">Search Results:</h3>
             <ul class="employee-list">
                 <li v-for="(emp,i) in filteredEmployees" :key="emp.employeeId ||i" class="emp-item" @click="selectEmployee(emp)">
                     <div class="emp-info">
@@ -281,11 +281,23 @@ export default {
     margin: 0 auto;
     min-height: calc(100vh - 120px);
 }
+
 .page-title{
     margin-bottom: 30px;
     color: #2c3e50;
     font-size: 2rem;
     text-align: center;
+}
+
+.dark-mode .page-title{
+    margin-bottom: 30px;
+    color: #d8d8d8;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.dark-mode .search-title{
+    color: #d8d8d8;
 }
 
 .search-container{
@@ -331,6 +343,17 @@ export default {
     align-items: center;
 }
 
+.dark-mode .emp-item{
+    background: #3f3f3f;
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .emp-item:hover{
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -349,12 +372,29 @@ export default {
     color: #2c3e50;
 }
 
+.dark-mode .emp-name{
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #d8d8d8;
+}
+
 .emp-position{
     font-size: 0.9rem;
     padding: 4px 10px;
     border-radius: 6px;
     font-weight: 500;
     background: #f8f9fa;
+    color: #666;
+    display: inline-block;
+    width: fit-content;
+}
+
+.dark-mode .emp-position{
+    font-size: 0.9rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    background: #3f3f3f;
     color: #666;
     display: inline-block;
     width: fit-content;
@@ -423,6 +463,12 @@ export default {
     color: #2c3e50;
 }
 
+.dark-mode .employee-header h2{
+    margin: 0 0 8px 0;
+    font-size: 1.8rem;
+    color: #d8d8d8;
+}
+
 .employee-position{
     font-weight: 600;
     font-size: 1.1rem;
@@ -439,6 +485,12 @@ export default {
     margin: 0 0 24px 0;
     font-size: 1.5rem;
     color: #2c3e50;
+}
+
+.dark-mode .payslips-title{
+    margin: 0 0 24px 0;
+    font-size: 1.5rem;
+    color: #d8d8d8;
 }
 
 .payslips-grid{
