@@ -1,7 +1,6 @@
 <script>
 import employeeInfo from '@/stores/employee_info.json';
 
-
 export default {
     name: 'Employees',
     data() {
@@ -29,6 +28,7 @@ export default {
     mounted() {
         this.employees = employeeInfo.employeeInformation || employeeInfo;
         this.isLoading = false;
+        // this.$store.dispatch(variable)
     }
 }
 

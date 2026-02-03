@@ -1,6 +1,12 @@
 <script>
+import { inject } from 'vue';
+
 export default {
   name: 'LoginPage',
+  setup() {
+    const globalState = inject('globalState');
+    return { globalState };
+  },
   data() {
     return {
       email: '',
@@ -31,6 +37,7 @@ export default {
 
           localStorage.setItem('isAuthenticated', 'true')
           localStorage.setItem('userEmail', this.email)
+          this.globalState.isAuthenticated = true;
 
           if (this.rememberMe) {
             localStorage.setItem('savedEmail', this.email)
@@ -40,7 +47,7 @@ export default {
             localStorage.removeItem('rememberMe')
           }
 
-          this.$router.push('/dashboard')
+          this.$router.push('/employees')
         } else {
           this.errorMessage = 'Invalid email or password'
         }
@@ -59,7 +66,8 @@ export default {
     }
 
     if (localStorage.getItem('isAuthenticated') === 'true') {
-      this.$router.push('/dashboard')
+      this.globalState.isAuthenticated = true;
+      this.$router.push('/employees')
     }
   }
 }

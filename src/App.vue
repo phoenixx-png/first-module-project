@@ -1,12 +1,17 @@
 <script>
 import Header from './components/Header.vue';
 import SideBarNav from './components/SideBarNav.vue';
+import { inject } from 'vue';
 
 export default {
   name: 'App',
   components: {
     Header,
     SideBarNav
+  },
+  setup() {
+    const globalState = inject('globalState');
+    return { globalState };
   },
   data() {
     return {
@@ -16,7 +21,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      return localStorage.getItem('isAuthenticated') === 'true';
+      return this.globalState.isAuthenticated;
     }
   },
   methods: {
@@ -30,7 +35,7 @@ export default {
     logout() {
       localStorage.removeItem('isAuthenticated');
       localStorage.removeItem('userEmail');
-
+      this.globalState.isAuthenticated = false;
       this.$router.push('/');
     }
   },
