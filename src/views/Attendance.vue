@@ -145,7 +145,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="edit_btn">Edit</button>
+        <button class="edit_btn" onclick=""showPopup()>Edit</button>
     </div>
 </template>
 
