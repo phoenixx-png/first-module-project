@@ -11,6 +11,7 @@
             <div class="filter-group">
                 <label for="status-filter">Filter by Status</label>
                 <select id="status-filter" v-model="selectedStatus">
+                <select id="status-filter" v-model="selectedStatus">
                     <option value="all">All Status</option>
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
@@ -22,6 +23,7 @@
             <button @click="resetFilters" class="reset-btn">Reset Filters</button>
         </div>
 
+        <!-- Corrected Stats Section -->
         <div class="stats-section">
             <h3>Monthly Overview({{ currentMonthName }})</h3>
             <div class="stats-grid">
@@ -144,7 +146,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="edit_btn">Edit</button>
+        <button class="edit_btn" onclick=""showPopup()>Edit</button>
     </div>
 </template>
 
